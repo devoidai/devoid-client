@@ -1,5 +1,5 @@
+import os
 import base64
-
 import asyncio
 import requests
 
@@ -9,11 +9,14 @@ from devoid_client.enums import Executor
 
 from random import randint
 
-GENERATOR_ENDPOINT = 'ws://example.com/ws'
+GENERATOR_ENDPOINT = 'ws://localhost:8080/ws'
 SERVICE_NAME = 'discord'
-SERVICE_TOKEN = 'service_token'
+SERVICE_TOKEN = 'service-token'
 
 expecting = {}
+
+if not os.path.exists("gens/"):
+    os.makedirs("gens/")
 
 # Connection lost handler
 async def connection_error_handler(exception: Exception):
@@ -126,6 +129,8 @@ async def main():
         "negative_prior_prompt": "",
         "negative_decoder_prompt": ""
     }
+
+    await asyncio.sleep(10)
     
     # СМЕШИВАНИЕ КАРТИНОК
     with open("1.png", "rb") as image:
